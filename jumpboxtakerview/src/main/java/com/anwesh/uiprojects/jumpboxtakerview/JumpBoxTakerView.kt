@@ -178,4 +178,27 @@ class JumpBoxTakerView(ctx : Context) : View(ctx) {
             curr.startUpdating(cb)
         }
     }
+
+    data class Renderer(var view : JumpBoxTakerView) {
+
+        private val jbt : JumpBoxTaker = JumpBoxTaker(0)
+        private var dir : Int = 1
+        private val animator : Animator = Animator(view)
+
+        fun render(canvas : Canvas, paint : Paint) {
+            canvas.drawColor(backColor)
+            jbt.draw(canvas, paint)
+            animator.animate {
+                jbt.update {
+                    animator.stop()
+                }
+            }
+        }
+
+        fun handleTap() {
+            jbt.startUpdating {
+                animator.start()
+            }
+        }
+    }
 }
