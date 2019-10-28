@@ -25,3 +25,25 @@ fun Int.inverse() : Float = 1f / this
 fun Float.maxScale(i : Int, n : Int) : Float = Math.max(0f, this - i * n.inverse())
 fun Float.divideScale(i : Int, n : Int) : Float = Math.min(n.inverse(), maxScale(i, n)) * n
 fun Float.sinify() : Float = Math.sin(Math.PI * this).toFloat()
+
+fun Canvas.drawJumpBox(scale : Float, h : Float, size : Float, paint : Paint) {
+    save()
+    translate(0f, (h - 2 * size) * (1 - scale.sinify()))
+    drawRect(RectF(-size, 0f, size, 2 * size), paint)
+    restore()
+    drawLine(0f, 0f, 0f, (h - 2 * size) * scale.divideScale(1, 2), paint)
+}
+
+fun Canvas.drawJBTNode(i : Int, scale : Float, paint : Paint) {
+    val w : Float = width.toFloat()
+    val h : Float = height.toFloat()
+    val gap : Float = w / (nodes + 1)
+    val size : Float = gap / sizeFactor
+    paint.color = foreColor
+    paint.strokeCap = Paint.Cap.ROUND
+    paint.strokeWidth = Math.min(w, h) / strokeFactor
+    save()
+    translate(gap * (i + 1), 0f)
+    drawJumpBox(scale, h, size, paint)
+    restore()
+}
