@@ -25,13 +25,14 @@ fun Int.inverse() : Float = 1f / this
 fun Float.maxScale(i : Int, n : Int) : Float = Math.max(0f, this - i * n.inverse())
 fun Float.divideScale(i : Int, n : Int) : Float = Math.min(n.inverse(), maxScale(i, n)) * n
 fun Float.sinify() : Float = Math.sin(Math.PI * this).toFloat()
+fun Float.cosify() : Float = 1f - Math.sin((Math.PI / 2) * (1 - this)).toFloat()
 
 fun Canvas.drawJumpBox(scale : Float, h : Float, size : Float, paint : Paint) {
     save()
     translate(0f, (h - 2 * size) * (1 - scale.sinify()))
     drawRect(RectF(-size, 0f, size, 2 * size), paint)
     restore()
-    drawLine(0f, 0f, 0f, (h - 2 * size) * scale.divideScale(1, 2), paint)
+    drawLine(0f, 0f, 0f, (h - 2 * size) * scale.divideScale(1, 2).cosify(), paint)
 }
 
 fun Canvas.drawJBTNode(i : Int, scale : Float, paint : Paint) {
