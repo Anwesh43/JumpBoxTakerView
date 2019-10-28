@@ -202,4 +202,13 @@ class JumpBoxTakerView(ctx : Context) : View(ctx) {
             }
         }
     }
+
+    companion object {
+
+        fun create(activity : Activity) : JumpBoxTakerView {
+            val view : JumpBoxTakerView = JumpBoxTakerView(activity)
+            activity.setContentView(view)
+            return view
+        }
+    }
 }
